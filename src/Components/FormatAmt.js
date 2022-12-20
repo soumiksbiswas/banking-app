@@ -1,5 +1,3 @@
-import React from 'react'
-
 const FormatAmt = ({amt}) => {
     if(isNaN(amt))
         return "0.00";

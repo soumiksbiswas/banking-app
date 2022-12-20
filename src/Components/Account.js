@@ -1,21 +1,26 @@
 import "./Account.css";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import FormatAmt from "./FormatAmt";
 
 const Account = () => {
-
+  
+  // assigned some random initial values to the bank accounts 
   const banks = [
     { label: "0", value: "SBI", debit: 50, credit: 100 },
     { label: "1", value: "UBI", debit: 500, credit: 10 },
     { label: "2", value: "UCO", debit: 100, credit: 1000 },
+    { label: "3", value: "Axis", debit: 100, credit: 1000 },
+    { label: "4", value: "IB", debit: 100, credit: 1000 },
   ];
 
+  // initially three rows need to be displayed
   let [inputList, setInputList] = useState([
     { bank: "Select Account", debit: 0, credit: 0 },
     { bank: "Select Account", debit: 0, credit: 0 },
     { bank: "Select Account", debit: 0, credit: 0 },
   ]);
 
+  // when a certain bank is chosen from the drop down list, the initial debit and credit amount of that account will be assigned to the respective values field
   let handleBankChange = (e, index) => {
     let tar = e.target.value;
     let { deb, cred } = [0, 0];
@@ -41,10 +46,16 @@ const Account = () => {
   let debit_amt = 0;
   let cred_amt = 0;
 
+
+  // on clicking add rows, this event listener will be called
   const handleClick = () => {
-    setInputList([...inputList, { bank: "Select Account", debit: 0, credit: 0 }]);
+    setInputList([
+      ...inputList,
+      { bank: "Select Account", debit: 0, credit: 0 },
+    ]);
   };
 
+  // delete rows
   const handleRemove = (index) => {
     const list = [...inputList];
     list.splice(index, 1);
@@ -61,7 +72,9 @@ const Account = () => {
             <div className="row">
               <div className="col-5 border rounded d-flex flex-row align-items-center">
                 <select
-                  className={`${inputList[i].bank==='Select Account'?'text-muted':''} w-100 border-0 h4 element-focus`}
+                  className={`${
+                    inputList[i].bank === "Select Account" ? "text-muted" : ""
+                  } w-100 border-0 h4 element-focus`}
                   defaultValue={"Select Account"}
                   onChange={(e) => handleBankChange(e, i)}
                 >
@@ -70,7 +83,7 @@ const Account = () => {
                   </option>
                   {banks.map((item) => (
                     <option key={item.value} value={item.value}>
-                      {item.value} 
+                      {item.value}
                     </option>
                   ))}
                 </select>
@@ -93,7 +106,6 @@ const Account = () => {
                   name="credit"
                   id="credit"
                   value={inputList[i].credit}
-                                 
                   onChange={(e) => handleChange(e, i)}
                 />
               </div>

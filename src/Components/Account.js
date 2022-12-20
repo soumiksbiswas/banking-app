@@ -62,7 +62,6 @@ const Account = () => {
               <div className="col-5 border rounded d-flex flex-row align-items-center">
                 <select
                   className={`${inputList[i].bank==='Select Account'?'text-muted':''} w-100 border-0 h4 element-focus`}
-                  // className={`text-muted w-100 border-0 h4 element-focus`}
                   defaultValue={"Select Account"}
                   onChange={(e) => handleBankChange(e, i)}
                 >
@@ -127,8 +126,6 @@ const Account = () => {
               <div className="col h4 d-flex justify-content-end">Total</div>
             </div>
           </div>
-          {/* <div className="col-3">{debit_amt.toLocaleString("en-IN")}</div>
-          <div className="col-3">{cred_amt.toLocaleString("en-IN")}</div> */}
           <div className="col-3 h4">{<FormatAmt amt={debit_amt} />}</div>
           <div className="col-3 h4">{<FormatAmt amt={cred_amt} />}</div>
           <div className="col"></div>

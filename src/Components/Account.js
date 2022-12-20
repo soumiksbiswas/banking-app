@@ -1,7 +1,9 @@
 import "./Account.css";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import FormatAmt from "./FormatAmt";
 
 const Account = () => {
+
   const banks = [
     { label: "0", value: "SBI", debit: 50, credit: 100 },
     { label: "1", value: "UBI", debit: 500, credit: 10 },
@@ -9,17 +11,13 @@ const Account = () => {
   ];
 
   let [inputList, setInputList] = useState([
-    { debit: 0, credit: 0 },
-    { debit: 0, credit: 0 },
-    { debit: 0, credit: 0 },
+    { bank: "Select Account", debit: 0, credit: 0 },
+    { bank: "Select Account", debit: 0, credit: 0 },
+    { bank: "Select Account", debit: 0, credit: 0 },
   ]);
-
-  // eslint-disable-next-line
-  let [bankName, setBankName] = useState("Select account");
 
   let handleBankChange = (e, index) => {
     let tar = e.target.value;
-    setBankName(tar);
     let { deb, cred } = [0, 0];
     banks.forEach((element) => {
       if (element.value === tar) {
@@ -27,8 +25,8 @@ const Account = () => {
         cred = element.credit;
       }
     });
-    console.log(deb, cred);
     let list = [...inputList];
+    list[index].bank = tar;
     list[index].debit = deb;
     list[index].credit = cred;
     setInputList(list);
@@ -44,7 +42,7 @@ const Account = () => {
   let cred_amt = 0;
 
   const handleClick = () => {
-    setInputList([...inputList, { debit: 0, credit: 0 }]);
+    setInputList([...inputList, { bank: "Select Account", debit: 0, credit: 0 }]);
   };
 
   const handleRemove = (index) => {
@@ -63,16 +61,17 @@ const Account = () => {
             <div className="row">
               <div className="col-5 border rounded d-flex flex-row align-items-center">
                 <select
-                  className="w-100 border-0 h4 element-focus"
+                  className={`${inputList[i].bank==='Select Account'?'text-muted':''} w-100 border-0 h4 element-focus`}
+                  // className={`text-muted w-100 border-0 h4 element-focus`}
                   defaultValue={"Select Account"}
                   onChange={(e) => handleBankChange(e, i)}
                 >
                   <option value="Select Account" disabled>
                     Select Account
                   </option>
-                  {banks.map((bankName) => (
-                    <option key={bankName.value} value={bankName.value}>
-                      {bankName.value}
+                  {banks.map((item) => (
+                    <option key={item.value} value={item.value}>
+                      {item.value} 
                     </option>
                   ))}
                 </select>
@@ -95,6 +94,7 @@ const Account = () => {
                   name="credit"
                   id="credit"
                   value={inputList[i].credit}
+                                 
                   onChange={(e) => handleChange(e, i)}
                 />
               </div>
@@ -121,14 +121,16 @@ const Account = () => {
                     handleClick();
                   }}
                 >
-                  +Add Row
+                  <h5>+Add Row</h5>
                 </button>
               </div>
-              <div className="col d-flex justify-content-end">Total</div>
+              <div className="col h4 d-flex justify-content-end">Total</div>
             </div>
           </div>
-          <div className="col-3">{debit_amt.toLocaleString("en-IN")}</div>
-          <div className="col-3">{cred_amt.toLocaleString("en-IN")}</div>
+          {/* <div className="col-3">{debit_amt.toLocaleString("en-IN")}</div>
+          <div className="col-3">{cred_amt.toLocaleString("en-IN")}</div> */}
+          <div className="col-3 h4">{<FormatAmt amt={debit_amt} />}</div>
+          <div className="col-3 h4">{<FormatAmt amt={cred_amt} />}</div>
           <div className="col"></div>
         </div>
       </div>
